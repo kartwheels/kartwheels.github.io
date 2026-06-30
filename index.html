@@ -1,0 +1,748 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KartWheels AI Shopping</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#db2777;--s:#8b5cf6;--a:#06b6d4;--g:#10b981;--bg:#fdf2f8;--c:#fff;--t:#831843;--tl:#a8557f;--b:#fbcfe8}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--t);padding-bottom:70px}
+.header{position:fixed;top:0;left:0;right:0;background:var(--p);padding:10px 16px;display:flex;align-items:center;gap:12px;z-index:1000}
+.logo{font-size:18px;font-weight:900;color:white}
+.search{flex:1;position:relative}
+.search input{width:100%;padding:8px 35px 8px 12px;border:none;border-radius:8px;font-size:13px}
+.search i{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--p)}
+.hicons{display:flex;gap:14px;color:white;font-size:18px}
+.hicons i{position:relative;cursor:pointer}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--s);color:white;font-size:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.page{display:none;padding-top:55px;min-height:100vh}
+.page.active{display:block}
+.hero{margin:10px;padding:20px;background:linear-gradient(135deg,var(--p),var(--s),var(--a));border-radius:16px;color:white;text-align:center}
+.hero h2{font-size:22px;margin-bottom:6px}.hero p{font-size:13px;opacity:0.9}
+.hero button{margin-top:12px;padding:8px 20px;background:white;color:var(--p);border:none;border-radius:20px;font-weight:700;cursor:pointer}
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:8px 12px}
+.ccard{background:var(--c);border-radius:12px;padding:12px 6px;text-align:center;border:2px solid var(--b);cursor:pointer;transition:transform 0.2s}
+.ccard:active{transform:scale(0.95)}
+.cicon{width:44px;height:44px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:8px 12px}
+.pcard{background:var(--c);border-radius:14px;overflow:hidden;border:2px solid var(--b);cursor:pointer;position:relative;transition:transform 0.2s}
+.pcard:active{transform:scale(0.98)}
+.pcard img{width:100%;height:140px;object-fit:cover}
+.pinfo{padding:10px}.pname{font-size:12px;font-weight:700;margin-bottom:4px;height:30px;overflow:hidden}
+.pbrand{font-size:11px;color:var(--tl);margin-bottom:6px}
+.price{font-size:14px;font-weight:800;color:var(--p)}.orig{font-size:11px;color:var(--tl);text-decoration:line-through;margin-left:6px}
+.disc{font-size:10px;color:var(--g);font-weight:700;background:rgba(16,185,129,0.1);padding:2px 6px;border-radius:4px}
+.rating{display:flex;align-items:center;gap:4px;font-size:11px;margin-top:6px}
+.stars{background:var(--g);color:white;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700}
+.acart{width:100%;padding:8px;background:linear-gradient(135deg,var(--p),var(--s));color:white;border:none;font-size:12px;font-weight:700;cursor:pointer}
+.wbtn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:white;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--tl);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.wbtn.active{color:#ef4444}
+.detail-img{width:100%;height:280px;object-fit:contain;background:#f8f8f8;padding:20px}
+.dinfo{padding:16px}.dinfo h1{font-size:18px;font-weight:800;margin-bottom:8px}
+.dbrand{color:var(--tl);font-size:13px;margin-bottom:10px}
+.dprice{font-size:24px;font-weight:900;color:var(--p)}.dorig{text-decoration:line-through;color:var(--tl);margin-left:10px;font-size:16px}
+.ddisc{color:var(--g);font-weight:700;margin-left:10px}
+.dactions{position:fixed;bottom:70px;left:0;right:0;display:flex;gap:10px;padding:12px;background:white;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:100}
+.dactions button{flex:1;padding:14px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none}
+.dactions .ac{background:white;color:var(--p);border:2px solid var(--p)}
+.dactions .bn{background:linear-gradient(135deg,var(--p),var(--s));color:white}
+.cart-item{display:flex;gap:12px;padding:12px;background:white;margin:8px 12px;border-radius:12px;border:2px solid var(--b)}
+.cart-item img{width:80px;height:80px;object-fit:cover;border-radius:8px}
+.cart-info{flex:1}
+.cart-info h4{font-size:13px;margin-bottom:4px}
+.cart-info .cprice{font-size:14px;font-weight:800;color:var(--p)}
+.qty{display:flex;align-items:center;gap:8px;margin-top:8px}
+.qty button{width:28px;height:28px;border-radius:50%;border:1px solid var(--b);background:white;color:var(--p);font-weight:700;cursor:pointer}
+.qty span{font-size:14px;font-weight:700;min-width:20px;text-align:center}
+.remove-btn{color:#ef4444;font-size:12px;margin-top:6px;cursor:pointer;background:none;border:none}
+.cart-empty{text-align:center;padding:60px 20px}
+.cart-empty i{font-size:60px;color:var(--b);margin-bottom:16px}
+.cart-empty h3{color:var(--tl);margin-bottom:8px}
+.cart-total{position:fixed;bottom:70px;left:0;right:0;background:white;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:100}
+.cart-total span{font-size:16px;font-weight:800;color:var(--p)}
+.cart-total button{padding:12px 24px;background:linear-gradient(135deg,var(--p),var(--s));color:white;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+.wgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:8px 12px}
+.order-item{background:white;margin:8px 12px;padding:14px;border-radius:12px;border:2px solid var(--b)}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.order-id{font-size:12px;color:var(--tl);font-weight:700}
+.order-status{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:700}
+.status-delivered{background:rgba(16,185,129,0.15);color:var(--g)}
+.status-shipped{background:rgba(6,182,212,0.15);color:var(--a)}
+.status-pending{background:rgba(251,192,232,0.5);color:var(--p)}
+.order-products{display:flex;gap:8px;margin-top:10px}
+.order-products img{width:50px;height:50px;object-fit:cover;border-radius:8px;border:1px solid var(--b)}
+.order-total{font-size:14px;font-weight:800;color:var(--p);margin-top:8px;text-align:right}
+.profile-header{text-align:center;padding:30px 20px;background:linear-gradient(135deg,var(--p),var(--s));color:white}
+.profile-header img{width:80px;height:80px;border-radius:50%;border:3px solid white;margin-bottom:10px}
+.profile-header h3{font-size:18px}
+.profile-header p{font-size:12px;opacity:0.9}
+.profile-menu{background:white;margin:10px 12px;border-radius:12px;overflow:hidden;border:2px solid var(--b)}
+.profile-menu-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--b);cursor:pointer}
+.profile-menu-item:last-child{border-bottom:none}
+.profile-menu-item i{width:24px;text-align:center;color:var(--p);font-size:16px}
+.profile-menu-item span{flex:1;font-size:14px;font-weight:600}
+.profile-menu-item .arrow{color:var(--tl);font-size:12px}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid var(--b);z-index:1000}
+.bnav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--tl);font-size:11px;transition:color 0.2s}
+.bnav-item i{font-size:20px}
+.bnav-item.active{color:var(--p)}
+.stitle{display:flex;justify-content:space-between;align-items:center;padding:12px 12px 4px}
+.stitle h3{font-size:16px;font-weight:800}.stitle a{font-size:12px;color:var(--p);text-decoration:none;font-weight:700}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--t);color:white;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;z-index:2000;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.ai-btn{position:fixed;bottom:90px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--s));color:white;border:none;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;box-shadow:0 4px 15px rgba(219,39,119,0.4);z-index:500;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.ai-panel{position:fixed;bottom:160px;right:16px;width:calc(100% - 32px);max-width:380px;height:500px;background:white;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.2);z-index:600;display:none;flex-direction:column;overflow:hidden;border:2px solid var(--b)}
+.ai-panel.active{display:flex}
+.ai-header{background:linear-gradient(135deg,var(--p),var(--s));color:white;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.ai-header img{width:36px;height:36px;border-radius:50%;border:2px solid white}
+.ai-header h4{font-size:14px}.ai-header p{font-size:11px;opacity:0.9}
+.ai-close{margin-left:auto;background:none;border:none;color:white;font-size:18px;cursor:pointer}
+.ai-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:#fafafa}
+.ai-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.5;animation:msgIn 0.3s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.ai-msg.user{align-self:flex-end;background:linear-gradient(135deg,var(--p),var(--s));color:white;border-bottom-right-radius:4px}
+.ai-msg.bot{align-self:flex-start;background:white;border:1px solid var(--b);color:var(--t);border-bottom-left-radius:4px}
+.ai-msg.bot .ai-name{font-size:10px;color:var(--p);font-weight:700;margin-bottom:4px}
+.ai-input-area{padding:10px 12px;background:white;border-top:1px solid var(--b);display:flex;gap:8px}
+.ai-input-area input{flex:1;padding:10px 14px;border:1px solid var(--b);border-radius:20px;font-size:13px;outline:none}
+.ai-input-area input:focus{border-color:var(--p)}
+.ai-input-area button{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--s));color:white;border:none;cursor:pointer;font-size:16px}
+.ai-typing{display:flex;gap:4px;padding:8px 12px}
+.ai-typing span{width:8px;height:8px;background:var(--p);border-radius:50%;animation:typing 1.4s infinite}
+.ai-typing span:nth-child(2){animation-delay:0.2s}
+.ai-typing span:nth-child(3){animation-delay:0.4s}
+@keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-10px)}}
+.ai-quick-btns{display:flex;gap:6px;padding:0 12px 8px;flex-wrap:wrap}
+.ai-quick-btns button{padding:6px 12px;background:var(--bg);border:1px solid var(--b);border-radius:16px;font-size:11px;color:var(--t);cursor:pointer;transition:all 0.2s}
+.ai-quick-btns button:hover{background:var(--p);color:white;border-color:var(--p)}
+.ai-product-card{display:flex;gap:8px;padding:8px;background:var(--bg);border-radius:10px;margin-top:6px;cursor:pointer}
+.ai-product-card img{width:50px;height:50px;object-fit:cover;border-radius:8px}
+.ai-product-card div{flex:1}
+.ai-product-card .ai-pname{font-size:11px;font-weight:700;color:var(--t)}
+.ai-product-card .ai-pprice{font-size:12px;font-weight:800;color:var(--p)}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<div class="header">
+  <div class="logo"><i class="fas fa-shopping-bag"></i> KartWheels</div>
+  <div class="search">
+    <input type="text" placeholder="Search products..." id="searchInput" onkeyup="searchProducts()">
+    <i class="fas fa-search"></i>
+  </div>
+  <div class="hicons">
+    <i class="fas fa-bell"><span class="badge">3</span></i>
+    <i class="fas fa-comment-dots"><span class="badge">5</span></i>
+  </div>
+</div>
+
+<div class="page active" id="home">
+  <div class="hero">
+    <h2>AI-Powered Shopping</h2>
+    <p>Discover products curated just for you by our AI</p>
+    <button onclick="toggleAI()">Chat with AI Assistant 🤖</button>
+  </div>
+  <div class="stitle"><h3>Categories</h3><a href="#">See All</a></div>
+  <div class="cgrid">
+    <div class="ccard" onclick="filterCategory('Electronics')">
+      <div class="cicon" style="background:#fef3c7;color:#f59e0b"><i class="fas fa-mobile-alt"></i></div>
+      <div style="font-size:11px;font-weight:700">Mobiles</div>
+    </div>
+    <div class="ccard" onclick="filterCategory('Fashion')">
+      <div class="cicon" style="background:#dbeafe;color:#3b82f6"><i class="fas fa-tshirt"></i></div>
+      <div style="font-size:11px;font-weight:700">Fashion</div>
+    </div>
+    <div class="ccard" onclick="filterCategory('Home')">
+      <div class="cicon" style="background:#d1fae5;color:#10b981"><i class="fas fa-couch"></i></div>
+      <div style="font-size:11px;font-weight:700">Home</div>
+    </div>
+    <div class="ccard" onclick="filterCategory('Beauty')">
+      <div class="cicon" style="background:#fce7f3;color:#db2777"><i class="fas fa-spa"></i></div>
+      <div style="font-size:11px;font-weight:700">Beauty</div>
+    </div>
+    <div class="ccard" onclick="filterCategory('Sports')">
+      <div class="cicon" style="background:#ede9fe;color:#8b5cf6"><i class="fas fa-futbol"></i></div>
+      <div style="font-size:11px;font-weight:700">Sports</div>
+    </div>
+    <div class="ccard" onclick="filterCategory('Books')">
+      <div class="cicon" style="background:#fee2e2;color:#ef4444"><i class="fas fa-book"></i></div>
+      <div style="font-size:11px;font-weight:700">Books</div>
+    </div>
+    <div class="ccard" onclick="filterCategory('Toys')">
+      <div class="cicon" style="background:#cffafe;color:#06b6d4"><i class="fas fa-gamepad"></i></div>
+      <div style="font-size:11px;font-weight:700">Toys</div>
+    </div>
+    <div class="ccard" onclick="filterCategory('Grocery')">
+      <div class="cicon" style="background:#fef9c3;color:#eab308"><i class="fas fa-shopping-basket"></i></div>
+      <div style="font-size:11px;font-weight:700">Grocery</div>
+    </div>
+  </div>
+  <div class="stitle"><h3>Trending Now</h3><a href="#">View All</a></div>
+  <div class="pgrid" id="trendingGrid"></div>
+  <div class="stitle"><h3>Best Deals</h3><a href="#">View All</a></div>
+  <div class="pgrid" id="dealsGrid"></div>
+</div>
+
+<div class="page" id="detail">
+  <img class="detail-img" id="dimg" src="" alt="">
+  <div class="dinfo">
+    <h1 id="dname">Product Name</h1>
+    <div class="dbrand" id="dbrand">Brand Name</div>
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">
+      <span class="dprice" id="dprice">₹0</span>
+      <span class="dorig" id="dorig">₹0</span>
+      <span class="ddisc" id="ddisc">0% off</span>
+    </div>
+    <div class="rating" style="margin-top:10px">
+      <span class="stars" id="dstars">4.5 ★</span>
+      <span id="dreviews">1,234 Reviews</span>
+    </div>
+    <div style="margin-top:16px;padding:12px;background:#f8f8f8;border-radius:10px">
+      <h4 style="font-size:13px;margin-bottom:6px">Product Description</h4>
+      <p style="font-size:12px;color:var(--tl);line-height:1.6" id="ddesc">Description here</p>
+    </div>
+    <div style="margin-top:12px;padding:12px;background:#f8f8f8;border-radius:10px">
+      <h4 style="font-size:13px;margin-bottom:6px">AI Recommendation</h4>
+      <p style="font-size:12px;color:var(--p);font-weight:600"><i class="fas fa-robot"></i> <span id="drec">98% of similar users loved this!</span></p>
+    </div>
+  </div>
+  <div style="height:80px"></div>
+  <div class="dactions">
+    <button class="ac" onclick="addToCartFromDetail()"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+    <button class="bn" onclick="buyNow()"><i class="fas fa-bolt"></i> Buy Now</button>
+  </div>
+</div>
+
+<div class="page" id="cart">
+  <div style="padding:16px">
+    <h2 style="font-size:20px;margin-bottom:4px">My Cart</h2>
+    <p style="font-size:12px;color:var(--tl)" id="cartCount">0 items</p>
+  </div>
+  <div id="cartItems"></div>
+  <div class="cart-empty" id="cartEmpty" style="display:none">
+    <i class="fas fa-shopping-cart"></i>
+    <h3>Your cart is empty</h3>
+    <p style="font-size:13px;color:var(--tl)">Add items to get started</p>
+    <button style="margin-top:16px;padding:10px 24px;background:var(--p);color:white;border:none;border-radius:20px;font-weight:700;cursor:pointer" onclick="showPage('home')">Start Shopping</button>
+  </div>
+  <div style="height:80px"></div>
+  <div class="cart-total" id="cartTotal" style="display:none">
+    <div><div style="font-size:12px;color:var(--tl)">Total</div><span id="totalPrice">₹0</span></div>
+    <button onclick="checkout()">Checkout</button>
+  </div>
+</div>
+
+<div class="page" id="wishlist">
+  <div style="padding:16px">
+    <h2 style="font-size:20px;margin-bottom:4px">My Wishlist</h2>
+    <p style="font-size:12px;color:var(--tl)" id="wishCount">0 items</p>
+  </div>
+  <div class="wgrid" id="wishGrid"></div>
+  <div class="cart-empty" id="wishEmpty" style="display:none">
+    <i class="fas fa-heart"></i>
+    <h3>Your wishlist is empty</h3>
+    <p style="font-size:13px;color:var(--tl)">Save items you love for later</p>
+    <button style="margin-top:16px;padding:10px 24px;background:var(--p);color:white;border:none;border-radius:20px;font-weight:700;cursor:pointer" onclick="showPage('home')">Browse Products</button>
+  </div>
+</div>
+
+<div class="page" id="orders">
+  <div style="padding:16px">
+    <h2 style="font-size:20px;margin-bottom:4px">My Orders</h2>
+    <p style="font-size:12px;color:var(--tl)">Track your purchases</p>
+  </div>
+  <div id="ordersList"></div>
+</div>
+
+<div class="page" id="profile">
+  <div class="profile-header">
+    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=User123" alt="Profile">
+    <h3>Alex Johnson</h3>
+    <p>alex.johnson@email.com</p>
+  </div>
+  <div class="profile-menu">
+    <div class="profile-menu-item"><i class="fas fa-user"></i><span>Edit Profile</span><i class="fas fa-chevron-right arrow"></i></div>
+    <div class="profile-menu-item"><i class="fas fa-map-marker-alt"></i><span>My Addresses</span><i class="fas fa-chevron-right arrow"></i></div>
+    <div class="profile-menu-item"><i class="fas fa-credit-card"></i><span>Payment Methods</span><i class="fas fa-chevron-right arrow"></i></div>
+    <div class="profile-menu-item" onclick="showPage('orders')"><i class="fas fa-box"></i><span>My Orders</span><i class="fas fa-chevron-right arrow"></i></div>
+    <div class="profile-menu-item" onclick="showPage('wishlist')"><i class="fas fa-heart"></i><span>My Wishlist</span><i class="fas fa-chevron-right arrow"></i></div>
+    <div class="profile-menu-item"><i class="fas fa-bell"></i><span>Notifications</span><i class="fas fa-chevron-right arrow"></i></div>
+    <div class="profile-menu-item"><i class="fas fa-cog"></i><span>Settings</span><i class="fas fa-chevron-right arrow"></i></div>
+    <div class="profile-menu-item"><i class="fas fa-headset"></i><span>Help & Support</span><i class="fas fa-chevron-right arrow"></i></div>
+    <div class="profile-menu-item"><i class="fas fa-sign-out-alt"></i><span>Logout</span><i class="fas fa-chevron-right arrow"></i></div>
+  </div>
+  <div style="height:20px"></div>
+</div>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-header">
+    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=KartWheelsAI" alt="AI">
+    <div><h4>KartWheels AI</h4><p>Your shopping assistant</p></div>
+    <button class="ai-close" onclick="toggleAI()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="ai-messages" id="aiMessages"></div>
+  <div class="ai-quick-btns" id="aiQuickBtns">
+    <button onclick="sendQuick('Best deals today')">🔥 Best deals</button>
+    <button onclick="sendQuick('Recommend electronics')">📱 Electronics</button>
+    <button onclick="sendQuick('Gift ideas under 1000')">🎁 Gifts under ₹1000</button>
+    <button onclick="sendQuick('Trending products')">✨ Trending</button>
+  </div>
+  <div class="ai-input-area">
+    <input type="text" id="aiInput" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter')sendAIMessage()">
+    <button onclick="sendAIMessage()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<button class="ai-btn" onclick="toggleAI()" title="AI Shopping Assistant"><i class="fas fa-robot"></i></button>
+
+<div class="bnav">
+  <div class="bnav-item active" onclick="showPage('home')" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
+  <div class="bnav-item" onclick="showPage('cart')" data-page="cart"><i class="fas fa-shopping-cart"></i><span>Cart</span></div>
+  <div class="bnav-item" onclick="showPage('wishlist')" data-page="wishlist"><i class="fas fa-heart"></i><span>Wishlist</span></div>
+  <div class="bnav-item" onclick="showPage('orders')" data-page="orders"><i class="fas fa-box"></i><span>Orders</span></div>
+  <div class="bnav-item" onclick="showPage('profile')" data-page="profile"><i class="fas fa-user"></i><span>Profile</span></div>
+</div>
+
+<script>
+const products = [
+  {id:1,name:"Wireless Earbuds Pro",brand:"TechSound",price:1299,orig:2499,disc:48,img:"https://images.unsplash.com/photo-1590658268037-6bf1e9a1702c?w=300&h=300&fit=crop",rating:4.5,reviews:2341,cat:"Electronics",desc:"Premium wireless earbuds with active noise cancellation and 30-hour battery life."},
+  {id:2,name:"Smart Fitness Watch",brand:"FitLife",price:1999,orig:3999,disc:50,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop",rating:4.3,reviews:1876,cat:"Electronics",desc:"Track your health with heart rate monitor, SpO2, and 100+ sports modes."},
+  {id:3,name:"Cotton Casual Shirt",brand:"StyleHub",price:499,orig:999,disc:50,img:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=300&fit=crop",rating:4.1,reviews:892,cat:"Fashion",desc:"100% pure cotton shirt with comfortable fit and trendy design."},
+  {id:4,name:"Running Shoes",brand:"SpeedRun",price:1599,orig:2999,disc:47,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop",rating:4.6,reviews:3456,cat:"Sports",desc:"Lightweight running shoes with advanced cushioning technology."},
+  {id:5,name:"Ceramic Coffee Mug Set",brand:"HomeCraft",price:349,orig:699,disc:50,img:"https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=300&h=300&fit=crop",rating:4.4,reviews:567,cat:"Home",desc:"Beautiful ceramic mugs, microwave safe, set of 4."},
+  {id:6,name:"Skincare Serum",brand:"GlowUp",price:599,orig:1199,disc:50,img:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=300&fit=crop",rating:4.7,reviews:1234,cat:"Beauty",desc:"Vitamin C serum for glowing skin, reduces dark spots."},
+  {id:7,name:"Bluetooth Speaker",brand:"BassPro",price:899,orig:1799,disc:50,img:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&h=300&fit=crop",rating:4.2,reviews:1567,cat:"Electronics",desc:"Portable speaker with deep bass and 12-hour playtime."},
+  {id:8,name:"Denim Jacket",brand:"DenimCo",price:1299,orig:2599,disc:50,img:"https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?w=300&h=300&fit=crop",rating:4.0,reviews:432,cat:"Fashion",desc:"Classic denim jacket with modern fit and durable fabric."},
+  {id:9,name:"Yoga Mat",brand:"FlexFit",price:399,orig:799,disc:50,img:"https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=300&h=300&fit=crop",rating:4.5,reviews:789,cat:"Sports",desc:"Non-slip yoga mat with extra cushioning for comfort."},
+  {id:10,name:"LED Desk Lamp",brand:"BrightLight",price:549,orig:1099,disc:50,img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300&h=300&fit=crop",rating:4.3,reviews:654,cat:"Home",desc:"Adjustable LED lamp with 3 color modes and touch control."},
+  {id:11,name:"Novel: The Mystery",brand:"BookWorld",price:199,orig:399,disc:50,img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=300&fit=crop",rating:4.6,reviews:2345,cat:"Books",desc:"Bestselling mystery thriller that keeps you hooked."},
+  {id:12,name:"Action Figure Set",brand:"ToyZone",price:799,orig:1599,disc:50,img:"https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=300&h=300&fit=crop",rating:4.4,reviews:321,cat:"Toys",desc:"Collectible action figures with detailed articulation."}
+];
+
+const orders = [
+  {id:"ORD-78432",date:"28 Jun 2026",status:"delivered",total:1299,items:[products[0]]},
+  {id:"ORD-78415",date:"25 Jun 2026",status:"shipped",total:1999,items:[products[1]]},
+  {id:"ORD-78390",date:"20 Jun 2026",status:"pending",total:898,items:[products[2],products[4]]}
+];
+
+let cart = [];
+let wishlist = [];
+let currentProduct = null;
+let aiOpen = false;
+
+const aiResponses = {
+  greetings: ["hi","hello","hey","namaste","hola"],
+  deals: ["deal","discount","sale","offer","cheap","best price","save"],
+  electronics: ["phone","mobile","earbuds","headphone","speaker","watch","laptop","electronics","gadget"],
+  fashion: ["shirt","dress","jeans","jacket","clothes","fashion","wear","outfit"],
+  sports: ["shoes","running","yoga","gym","fitness","sports","exercise"],
+  beauty: ["cream","serum","skincare","makeup","beauty","glow","face"],
+  home: ["lamp","mug","home","kitchen","decor","furniture"],
+  books: ["book","novel","read","story","author"],
+  toys: ["toy","game","kids","children","play"],
+  gifts: ["gift","present","birthday","anniversary","special"],
+  budget: ["under","below","cheap","affordable","low price","budget"],
+  compare: ["compare","vs","difference","better","which"],
+  help: ["help","support","contact","problem","issue"],
+  cart: ["cart","bag","checkout","buy","purchase","order"],
+  trending: ["trending","popular","hot","viral","best seller"]
+};
+
+function renderProductCard(p) {
+  return `<div class="pcard" onclick="openDetail(${p.id})">
+    <img src="${p.img}" alt="${p.name}" loading="lazy">
+    <button class="wbtn" onclick="event.stopPropagation();toggleWishlist(${p.id})" id="wbtn-${p.id}"><i class="fas fa-heart"></i></button>
+    <div class="pinfo">
+      <div class="pname">${p.name}</div>
+      <div class="pbrand">${p.brand}</div>
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">
+        <span class="price">₹${p.price}</span>
+        <span class="orig">₹${p.orig}</span>
+        <span class="disc">${p.disc}% off</span>
+      </div>
+      <div class="rating"><span class="stars">${p.rating} ★</span><span>(${p.reviews.toLocaleString()})</span></div>
+    </div>
+    <button class="acart" onclick="event.stopPropagation();addToCart(${p.id})">Add to Cart</button>
+  </div>`;
+}
+
+function renderHome() {
+  document.getElementById('trendingGrid').innerHTML = products.slice(0,4).map(renderProductCard).join('');
+  document.getElementById('dealsGrid').innerHTML = products.slice(4,8).map(renderProductCard).join('');
+}
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  const empty = document.getElementById('cartEmpty');
+  const totalDiv = document.getElementById('cartTotal');
+  document.getElementById('cartCount').textContent = cart.length + ' items';
+  if(cart.length === 0) {
+    container.innerHTML = '';
+    empty.style.display = 'block';
+    totalDiv.style.display = 'none';
+    return;
+  }
+  empty.style.display = 'none';
+  totalDiv.style.display = 'flex';
+  let total = 0;
+  container.innerHTML = cart.map(item => {
+    const p = products.find(x => x.id === item.id);
+    total += p.price * item.qty;
+    return `<div class="cart-item">
+      <img src="${p.img}" alt="${p.name}">
+      <div class="cart-info">
+        <h4>${p.name}</h4>
+        <div class="cprice">₹${p.price}</div>
+        <div class="qty">
+          <button onclick="updateQty(${item.id},-1)">-</button>
+          <span>${item.qty}</span>
+          <button onclick="updateQty(${item.id},1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i> Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('totalPrice').textContent = '₹' + total.toLocaleString();
+}
+
+function renderWishlist() {
+  const container = document.getElementById('wishGrid');
+  const empty = document.getElementById('wishEmpty');
+  document.getElementById('wishCount').textContent = wishlist.length + ' items';
+  if(wishlist.length === 0) {
+    container.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  container.innerHTML = wishlist.map(id => renderProductCard(products.find(x => x.id === id))).join('');
+}
+
+function renderOrders() {
+  document.getElementById('ordersList').innerHTML = orders.map(o => {
+    const sc = o.status === 'delivered' ? 'status-delivered' : o.status === 'shipped' ? 'status-shipped' : 'status-pending';
+    return `<div class="order-item">
+      <div class="order-header"><span class="order-id">${o.id}</span><span class="order-status ${sc}">${o.status.toUpperCase()}</span></div>
+      <div style="font-size:12px;color:var(--tl)">${o.date}</div>
+      <div class="order-products">${o.items.map(i => `<img src="${i.img}" alt="${i.name}">`).join('')}</div>
+      <div class="order-total">Total: ₹${o.total}</div>
+    </div>`;
+  }).join('');
+}
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.bnav-item[data-page="${pageId}"]`)?.classList.add('active');
+  window.scrollTo(0,0);
+  if(pageId === 'cart') renderCart();
+  if(pageId === 'wishlist') renderWishlist();
+  if(pageId === 'orders') renderOrders();
+}
+
+function openDetail(id) {
+  const p = products.find(x => x.id === id);
+  currentProduct = p;
+  document.getElementById('dimg').src = p.img;
+  document.getElementById('dname').textContent = p.name;
+  document.getElementById('dbrand').textContent = p.brand;
+  document.getElementById('dprice').textContent = '₹' + p.price;
+  document.getElementById('dorig').textContent = '₹' + p.orig;
+  document.getElementById('ddisc').textContent = p.disc + '% off';
+  document.getElementById('dstars').textContent = p.rating + ' ★';
+  document.getElementById('dreviews').textContent = p.reviews.toLocaleString() + ' Reviews';
+  document.getElementById('ddesc').textContent = p.desc;
+  showPage('detail');
+}
+
+function addToCart(id) {
+  const existing = cart.find(x => x.id === id);
+  if(existing) existing.qty++; else cart.push({id:id,qty:1});
+  showToast('Added to cart! 🛒');
+}
+
+function addToCartFromDetail() { if(currentProduct) addToCart(currentProduct.id); }
+function buyNow() { addToCartFromDetail(); showPage('cart'); }
+
+function updateQty(id, change) {
+  const item = cart.find(x => x.id === id);
+  if(!item) return;
+  item.qty += change;
+  if(item.qty <= 0) cart = cart.filter(x => x.id !== id);
+  renderCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  renderCart();
+  showToast('Removed from cart');
+}
+
+function toggleWishlist(id) {
+  const idx = wishlist.indexOf(id);
+  const btn = document.getElementById('wbtn-' + id);
+  if(idx > -1) {
+    wishlist.splice(idx, 1);
+    if(btn) btn.classList.remove('active');
+    showToast('Removed from wishlist');
+  } else {
+    wishlist.push(id);
+    if(btn) btn.classList.add('active');
+    showToast('Added to wishlist! ❤️');
+  }
+}
+
+function checkout() {
+  showToast('Order placed successfully! 🎉');
+  cart = [];
+  renderCart();
+  setTimeout(() => showPage('orders'), 1500);
+}
+
+function searchProducts() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  if(!q) { renderHome(); return; }
+  const f = products.filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q));
+  document.getElementById('trendingGrid').innerHTML = f.slice(0,4).map(renderProductCard).join('');
+  document.getElementById('dealsGrid').innerHTML = f.slice(4).map(renderProductCard).join('');
+}
+
+function filterCategory(cat) {
+  const f = products.filter(p => p.cat === cat);
+  document.getElementById('trendingGrid').innerHTML = f.slice(0,4).map(renderProductCard).join('');
+  document.getElementById('dealsGrid').innerHTML = f.slice(4).map(renderProductCard).join('');
+  showToast(cat + ' products shown');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== AI CHAT FUNCTIONS =====
+function toggleAI() {
+  aiOpen = !aiOpen;
+  const panel = document.getElementById('aiPanel');
+  if(aiOpen) {
+    panel.classList.add('active');
+    if(document.getElementById('aiMessages').children.length === 0) {
+      addBotMessage("👋 Hi! I'm your AI Shopping Assistant. I can help you find products, compare prices, get deals, and more! What are you looking for today?");
+    }
+  } else {
+    panel.classList.remove('active');
+  }
+}
+
+function addBotMessage(text, productsList) {
+  const container = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg bot';
+  let html = '<div class="ai-name">🤖 KartWheels AI</div>' + text;
+  if(productsList && productsList.length > 0) {
+    html += productsList.map(p => `
+      <div class="ai-product-card" onclick="openDetail(${p.id});toggleAI();">
+        <img src="${p.img}" alt="${p.name}">
+        <div>
+          <div class="ai-pname">${p.name}</div>
+          <div class="ai-pprice">₹${p.price} <span style="text-decoration:line-through;color:var(--tl);font-size:10px">₹${p.orig}</span></div>
+        </div>
+      </div>
+    `).join('');
+  }
+  div.innerHTML = html;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function addUserMessage(text) {
+  const container = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg user';
+  div.textContent = text;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping() {
+  const container = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg bot';
+  div.id = 'typingIndicator';
+  div.innerHTML = '<div class="ai-name">🤖 KartWheels AI</div><div class="ai-typing"><span></span><span></span><span></span></div>';
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typingIndicator');
+  if(t) t.remove();
+}
+
+function sendQuick(text) {
+  document.getElementById('aiInput').value = text;
+  sendAIMessage();
+}
+
+function sendAIMessage() {
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if(!text) return;
+  addUserMessage(text);
+  input.value = '';
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    const response = generateAIResponse(text.toLowerCase());
+    addBotMessage(response.text, response.products);
+  }, 800 + Math.random() * 700);
+}
+
+function generateAIResponse(text) {
+  let response = { text: "", products: [] };
+
+  if(aiResponses.greetings.some(w => text.includes(w))) {
+    response.text = "Hello! 👋 Welcome to KartWheels! I'm here to help you find the perfect products. You can ask me about deals, categories, gift ideas, or just tell me what you're looking for!";
+    return response;
+  }
+
+  if(aiResponses.deals.some(w => text.includes(w))) {
+    const deals = products.filter(p => p.disc >= 45).sort((a,b) => b.disc - a.disc).slice(0,3);
+    response.text = "🔥 Here are the hottest deals right now! Up to 50% off:";
+    response.products = deals;
+    return response;
+  }
+
+  if(aiResponses.electronics.some(w => text.includes(w))) {
+    const items = products.filter(p => p.cat === 'Electronics').slice(0,3);
+    response.text = "📱 Here are our top electronics picks:";
+    response.products = items;
+    return response;
+  }
+
+  if(aiResponses.fashion.some(w => text.includes(w))) {
+    const items = products.filter(p => p.cat === 'Fashion').slice(0,3);
+    response.text = "👕 Here are our trending fashion items:";
+    response.products = items;
+    return response;
+  }
+
+  if(aiResponses.sports.some(w => text.includes(w))) {
+    const items = products.filter(p => p.cat === 'Sports').slice(0,3);
+    response.text = "🏃‍♂️ Here are our best sports & fitness products:";
+    response.products = items;
+    return response;
+  }
+
+  if(aiResponses.beauty.some(w => text.includes(w))) {
+    const items = products.filter(p => p.cat === 'Beauty').slice(0,3);
+    response.text = "✨ Here are our top beauty products:";
+    response.products = items;
+    return response;
+  }
+
+  if(aiResponses.home.some(w => text.includes(w))) {
+    const items = products.filter(p => p.cat === 'Home').slice(0,3);
+    response.text = "🏠 Here are our best home products:";
+    response.products = items;
+    return response;
+  }
+
+  if(aiResponses.books.some(w => text.includes(w))) {
+    const items = products.filter(p => p.cat === 'Books').slice(0,3);
+    response.text = "📚 Here are our bestselling reads:";
+    response.products = items;
+    return response;
+  }
+
+  if(aiResponses.toys.some(w => text.includes(w))) {
+    const items = products.filter(p => p.cat === 'Toys').slice(0,3);
+    response.text = "🎮 Here are our top toy picks:";
+    response.products = items;
+    return response;
+  }
+
+  if(aiResponses.gifts.some(w => text.includes(w))) {
+    const budget = text.match(/(\d+)/);
+    if(budget) {
+      const maxPrice = parseInt(budget[0]);
+      const items = products.filter(p => p.price <= maxPrice).sort((a,b) => b.rating - a.rating).slice(0,3);
+      response.text = `🎁 Perfect gift ideas under ₹${maxPrice}:`;
+      response.products = items;
+    } else {
+      const items = products.sort((a,b) => b.rating - a.rating).slice(0,3);
+      response.text = "🎁 Here are our most loved gift ideas:";
+      response.products = items;
+    }
+    return response;
+  }
+
+  if(aiResponses.trending.some(w => text.includes(w))) {
+    const items = products.sort((a,b) => b.reviews - a.reviews).slice(0,3);
+    response.text = "🔥 These are trending right now:";
+    response.products = items;
+    return response;
+  }
+
+  if(aiResponses.budget.some(w => text.includes(w))) {
+    const budget = text.match(/(\d+)/);
+    if(budget) {
+      const maxPrice = parseInt(budget[0]);
+      const items = products.filter(p => p.price <= maxPrice).slice(0,3);
+      response.text = `💰 Here are great products under ₹${maxPrice}:`;
+      response.products = items;
+    } else {
+      response.text = "💰 Tell me your budget like 'under 1000' or 'below 500'.";
+    }
+    return response;
+  }
+
+  if(aiResponses.cart.some(w => text.includes(w))) {
+    if(cart.length === 0) {
+      response.text = "🛒 Your cart is empty! Browse our products and add items you like.";
+    } else {
+      const total = cart.reduce((sum, item) => sum + products.find(p => p.id === item.id).price * item.qty, 0);
+      response.text = `🛒 You have ${cart.length} item(s) in cart. Total: ₹${total}. Ready to checkout?`;
+    }
+    return response;
+  }
+
+  if(aiResponses.compare.some(w => text.includes(w))) {
+    response.text = "📊 I can help you compare! Try asking about specific products like 'compare earbuds and speaker'.";
+    return response;
+  }
+
+  if(aiResponses.help.some(w => text.includes(w))) {
+    response.text = "🆘 I can help you with:\\n• Find products by category\\n• Get best deals\\n• Find gifts by budget\\n• See trending products\\n• Check your cart\\n• Get recommendations\\n\\nWhat do you need?";
+    return response;
+  }
+
+  const matched = products.filter(p => 
+    p.name.toLowerCase().includes(text) || 
+    p.brand.toLowerCase().includes(text) || 
+    p.cat.toLowerCase().includes(text) ||
+    p.desc.toLowerCase().includes(text)
+  ).slice(0,3);
+
+  if(matched.length > 0) {
+    response.text = `🔍 I found these products matching your search:`;
+    response.products = matched;
+  } else {
+    response.text = "🤔 I didn't find exact matches, but here are popular products you might like! Try asking about electronics, fashion, sports, beauty, home, books, or toys.";
+    response.products = products.sort((a,b) => b.rating - a.rating).slice(0,3);
+  }
+
+  return response;
+}
+
+renderHome();
+</script>
+</body>
+</html>
