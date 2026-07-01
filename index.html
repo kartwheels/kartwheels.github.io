@@ -1,20 +1,16 @@
-# Complete Kartwheels Website with ALL features
-html_code = '''<!DOCTYPE html>
+
+# Create ULTIMATE Kartwheels with ALL features
+html_ultimate = '''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kartwheels - AI Shopping</title>
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="exact_final_dizzy_K.ico">
     <link rel="icon" type="image/png" href="exact_final_dizzy_K.png">
     <link rel="apple-touch-icon" href="exact_final_dizzy_K_apple.png">
     <meta name="theme-color" content="#0d3b2e">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -29,14 +25,25 @@ html_code = '''<!DOCTYPE html>
             --text-light: #666666;
         }
         
+        /* DARK MODE */
+        body.dark-mode {
+            --primary: #1a5f4a;
+            --secondary: #0d3b2e;
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --text: #ffffff;
+            --text-light: #a0a0a0;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg);
             color: var(--text);
             padding-bottom: 80px;
+            transition: all 0.3s;
         }
         
-        /* ===== HEADER ===== */
+        /* HEADER */
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -120,13 +127,42 @@ html_code = '''<!DOCTYPE html>
             justify-content: center;
         }
         
-        /* ===== MAIN CONTENT ===== */
+        /* LANGUAGE TOGGLE */
+        .lang-toggle {
+            position: fixed;
+            top: 70px;
+            right: 16px;
+            background: var(--card);
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        /* DARK MODE TOGGLE */
+        .dark-toggle {
+            position: fixed;
+            top: 110px;
+            right: 16px;
+            background: var(--card);
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        /* MAIN */
         .main {
             margin-top: 70px;
             padding: 16px;
         }
         
-        /* ===== HERO SECTION ===== */
+        /* HERO */
         .hero {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 20px;
@@ -136,17 +172,6 @@ html_code = '''<!DOCTYPE html>
             margin-bottom: 24px;
             position: relative;
             overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 200px;
-            height: 200px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
         }
         
         .hero h1 {
@@ -171,7 +196,71 @@ html_code = '''<!DOCTYPE html>
             font-size: 14px;
         }
         
-        /* ===== CATEGORIES ===== */
+        /* FLASH SALE TIMER */
+        .flash-sale {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            color: white;
+            text-align: center;
+        }
+        
+        .flash-sale h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .timer-box {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            min-width: 60px;
+        }
+        
+        .timer-box .num {
+            font-size: 24px;
+            font-weight: 800;
+        }
+        
+        .timer-box .label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        /* COUPONS */
+        .coupons-section {
+            margin-bottom: 24px;
+        }
+        
+        .coupon-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px;
+            padding: 16px;
+            color: white;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .coupon-code {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+        
+        /* CATEGORIES */
         .categories {
             display: flex;
             gap: 12px;
@@ -207,7 +296,7 @@ html_code = '''<!DOCTYPE html>
             color: var(--text);
         }
         
-        /* ===== SECTION TITLE ===== */
+        /* PRODUCTS */
         .section-title {
             display: flex;
             justify-content: space-between;
@@ -220,14 +309,6 @@ html_code = '''<!DOCTYPE html>
             color: var(--primary);
         }
         
-        .section-title a {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        /* ===== PRODUCTS GRID ===== */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -254,7 +335,9 @@ html_code = '''<!DOCTYPE html>
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--primary);
         }
         
         .product-info {
@@ -274,6 +357,23 @@ html_code = '''<!DOCTYPE html>
             font-size: 12px;
             color: var(--text-light);
             margin-bottom: 8px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .stars {
+            color: var(--gold);
+            font-size: 12px;
+        }
+        
+        .rating-text {
+            font-size: 12px;
+            color: var(--text-light);
         }
         
         .product-price {
@@ -321,9 +421,48 @@ html_code = '''<!DOCTYPE html>
             gap: 6px;
         }
         
-        .add-to-cart:active { background: var(--secondary); }
+        /* REVIEWS SECTION */
+        .reviews-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
         
-        /* ===== CART SIDEBAR ===== */
+        .reviews-section h2 {
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+        
+        .review-card {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 12px 0;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .reviewer-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .review-date {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .review-text {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        /* CART SIDEBAR */
         .cart-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -357,13 +496,6 @@ html_code = '''<!DOCTYPE html>
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .cart-header h2 { font-size: 20px; }
-        
-        .close-cart {
-            font-size: 24px;
-            cursor: pointer;
         }
         
         .cart-items {
@@ -439,6 +571,30 @@ html_code = '''<!DOCTYPE html>
             color: var(--primary);
         }
         
+        .coupon-input {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .coupon-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .coupon-input button {
+            padding: 12px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
         .checkout-btn {
             width: 100%;
             padding: 16px;
@@ -451,7 +607,7 @@ html_code = '''<!DOCTYPE html>
             cursor: pointer;
         }
         
-        /* ===== LOGIN/SIGNUP MODAL ===== */
+        /* LOGIN MODAL */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -540,7 +696,7 @@ html_code = '''<!DOCTYPE html>
             cursor: pointer;
         }
         
-        /* ===== BOTTOM NAVIGATION ===== */
+        /* BOTTOM NAV */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -568,7 +724,7 @@ html_code = '''<!DOCTYPE html>
         
         .nav-item.active { color: var(--primary); }
         
-        /* ===== PROFILE SECTION ===== */
+        /* PROFILE */
         .profile-section {
             display: none;
             padding: 20px;
@@ -609,7 +765,7 @@ html_code = '''<!DOCTYPE html>
         }
         
         .profile-menu {
-            background: white;
+            background: var(--card);
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
@@ -638,9 +794,27 @@ html_code = '''<!DOCTYPE html>
             font-weight: 600;
         }
         
-        .profile-menu-item .arrow { color: var(--text-light); }
+        /* WHATSAPP BUTTON */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            cursor: pointer;
+            text-decoration: none;
+        }
         
-        /* ===== TOAST NOTIFICATION ===== */
+        /* TOAST */
         .toast {
             position: fixed;
             bottom: 80px;
@@ -662,7 +836,7 @@ html_code = '''<!DOCTYPE html>
             opacity: 1;
         }
         
-        /* ===== EMPTY CART ===== */
+        /* EMPTY */
         .empty-cart {
             text-align: center;
             padding: 60px 20px;
@@ -674,12 +848,27 @@ html_code = '''<!DOCTYPE html>
             margin-bottom: 16px;
         }
         
-        .empty-cart p {
-            color: var(--text-light);
-            font-size: 16px;
+        /* INSTALL PWA BUTTON */
+        .install-btn {
+            position: fixed;
+            bottom: 160px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 999;
+            cursor: pointer;
+            border: none;
+            display: none;
         }
         
-        /* ===== CONTACT PAGE ===== */
+        .install-btn.show { display: block; }
+        
+        /* CONTACT */
         .contact-section {
             display: none;
             padding: 20px;
@@ -687,7 +876,7 @@ html_code = '''<!DOCTYPE html>
         }
         
         .contact-card {
-            background: white;
+            background: var(--card);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 16px;
@@ -735,7 +924,7 @@ html_code = '''<!DOCTYPE html>
             text-decoration: none;
         }
         
-        /* ===== ORDERS PAGE ===== */
+        /* ORDERS */
         .orders-section {
             display: none;
             padding: 20px;
@@ -743,7 +932,7 @@ html_code = '''<!DOCTYPE html>
         }
         
         .order-card {
-            background: white;
+            background: var(--card);
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 12px;
@@ -784,11 +973,25 @@ html_code = '''<!DOCTYPE html>
     </style>
 </head>
 <body>
-    <!-- ===== HEADER ===== -->
+    <!-- Language Toggle -->
+    <div class="lang-toggle" onclick="toggleLanguage()" id="langToggle">EN</div>
+    
+    <!-- Dark Mode Toggle -->
+    <div class="dark-toggle" onclick="toggleDarkMode()" id="darkToggle">🌙</div>
+    
+    <!-- Install PWA Button -->
+    <button class="install-btn" id="installBtn" onclick="installPWA()">📲 Install App</button>
+    
+    <!-- WhatsApp Chat -->
+    <a href="https://wa.me/919876543210" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- Header -->
     <div class="header">
         <div class="logo">
             <img src="exact_final_dizzy_K.png" alt="K">
-            Kartwheels
+            <span id="logoText">Kartwheels</span>
         </div>
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Search products...">
@@ -802,56 +1005,135 @@ html_code = '''<!DOCTYPE html>
         </div>
     </div>
     
-    <!-- ===== MAIN CONTENT (HOME) ===== -->
+    <!-- Main Content -->
     <div class="main" id="mainContent">
         <!-- Hero -->
         <div class="hero">
-            <h1>🛒 Welcome to Kartwheels</h1>
-            <p>AI-Powered Shopping Experience</p>
-            <button class="hero-btn" onclick="scrollToProducts()">Shop Now</button>
+            <h1 id="heroTitle">Welcome to Kartwheels</h1>
+            <p id="heroSub">AI-Powered Shopping Experience</p>
+            <button class="hero-btn" onclick="scrollToProducts()" id="shopBtn">Shop Now</button>
+        </div>
+        
+        <!-- Flash Sale -->
+        <div class="flash-sale">
+            <h3>⚡ Flash Sale - 50% OFF</h3>
+            <p>Hurry! Offer ends in:</p>
+            <div class="timer">
+                <div class="timer-box">
+                    <div class="num" id="hours">02</div>
+                    <div class="label">Hours</div>
+                </div>
+                <div class="timer-box">
+                    <div class="num" id="minutes">45</div>
+                    <div class="label">Mins</div>
+                </div>
+                <div class="timer-box">
+                    <div class="num" id="seconds">30</div>
+                    <div class="label">Secs</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Coupons -->
+        <div class="coupons-section">
+            <div class="section-title">
+                <h2 id="couponTitle">🎁 Coupons</h2>
+            </div>
+            <div class="coupon-card">
+                <div>
+                    <div style="font-size: 18px; font-weight: 800;">20% OFF</div>
+                    <div style="font-size: 12px; opacity: 0.9;">On all electronics</div>
+                </div>
+                <div class="coupon-code" onclick="copyCoupon('SAVE20')">SAVE20</div>
+            </div>
+            <div class="coupon-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                <div>
+                    <div style="font-size: 18px; font-weight: 800;">Rs.500 OFF</div>
+                    <div style="font-size: 12px; opacity: 0.9;">Min order Rs.2000</div>
+                </div>
+                <div class="coupon-code" onclick="copyCoupon('KART500')">KART500</div>
+            </div>
         </div>
         
         <!-- Categories -->
         <div class="categories">
             <div class="category" onclick="filterCategory('all')">
-                <div class="category-icon">🏠</div>
-                <div class="category-name">All</div>
+                <div class="category-icon">All</div>
+                <div class="category-name" data-en="All" data-hi="सब">All</div>
             </div>
             <div class="category" onclick="filterCategory('electronics')">
-                <div class="category-icon">📱</div>
-                <div class="category-name">Electronics</div>
+                <div class="category-icon">Elec</div>
+                <div class="category-name" data-en="Electronics" data-hi="इलेक्ट्रॉनिक्स">Electronics</div>
             </div>
             <div class="category" onclick="filterCategory('fashion')">
-                <div class="category-icon">👕</div>
-                <div class="category-name">Fashion</div>
+                <div class="category-icon">Fash</div>
+                <div class="category-name" data-en="Fashion" data-hi="फैशन">Fashion</div>
             </div>
             <div class="category" onclick="filterCategory('shoes')">
-                <div class="category-icon">👟</div>
-                <div class="category-name">Shoes</div>
+                <div class="category-icon">Shoe</div>
+                <div class="category-name" data-en="Shoes" data-hi="जूते">Shoes</div>
             </div>
             <div class="category" onclick="filterCategory('watch')">
-                <div class="category-icon">⌚</div>
-                <div class="category-name">Watches</div>
+                <div class="category-icon">Watch</div>
+                <div class="category-name" data-en="Watches" data-hi="घड़ी">Watches</div>
             </div>
             <div class="category" onclick="filterCategory('accessories')">
-                <div class="category-icon">🎧</div>
-                <div class="category-name">Accessories</div>
+                <div class="category-icon">Acc</div>
+                <div class="category-name" data-en="Accessories" data-hi="एक्सेसरीज">Accessories</div>
             </div>
         </div>
         
         <!-- Products -->
         <div class="section-title">
-            <h2>🔥 Trending Products</h2>
+            <h2 id="trendingTitle">Trending Products</h2>
             <a href="#" onclick="filterCategory('all')">View All</a>
         </div>
         
         <div class="products-grid" id="productsGrid"></div>
+        
+        <!-- Reviews -->
+        <div class="reviews-section">
+            <h2>⭐ Customer Reviews</h2>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Rahul Sharma</span>
+                    <span class="review-date">2 days ago</span>
+                </div>
+                <div class="product-rating">
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                    <span class="rating-text">5.0</span>
+                </div>
+                <div class="review-text">Amazing products! Fast delivery and great quality. Highly recommended!</div>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Priya Patel</span>
+                    <span class="review-date">5 days ago</span>
+                </div>
+                <div class="product-rating">
+                    <span class="stars">⭐⭐⭐⭐</span>
+                    <span class="rating-text">4.5</span>
+                </div>
+                <div class="review-text">Good shopping experience. The app is very easy to use.</div>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Amit Kumar</span>
+                    <span class="review-date">1 week ago</span>
+                </div>
+                <div class="product-rating">
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                    <span class="rating-text">5.0</span>
+                </div>
+                <div class="review-text">Best prices compared to other apps. Will shop again!</div>
+            </div>
+        </div>
     </div>
     
-    <!-- ===== PROFILE SECTION ===== -->
+    <!-- Profile Section -->
     <div class="profile-section" id="profileSection">
         <div class="profile-header">
-            <div class="profile-avatar">👤</div>
+            <div class="profile-avatar">U</div>
             <div class="profile-name" id="profileName">Guest User</div>
             <div class="profile-email" id="profileEmail">Login to see your profile</div>
         </div>
@@ -859,41 +1141,41 @@ html_code = '''<!DOCTYPE html>
         <div class="profile-menu">
             <div class="profile-menu-item" onclick="showOrders()">
                 <i class="fas fa-shopping-bag"></i>
-                <span>My Orders</span>
+                <span data-en="My Orders" data-hi="मेरे ऑर्डर">My Orders</span>
                 <i class="fas fa-chevron-right arrow"></i>
             </div>
             <div class="profile-menu-item">
                 <i class="fas fa-heart"></i>
-                <span>Wishlist</span>
+                <span data-en="Wishlist" data-hi="विशलिस्ट">Wishlist</span>
                 <i class="fas fa-chevron-right arrow"></i>
             </div>
             <div class="profile-menu-item">
                 <i class="fas fa-map-marker-alt"></i>
-                <span>Addresses</span>
+                <span data-en="Addresses" data-hi="पते">Addresses</span>
                 <i class="fas fa-chevron-right arrow"></i>
             </div>
             <div class="profile-menu-item" onclick="showContact()">
                 <i class="fas fa-headset"></i>
-                <span>Contact Us</span>
+                <span data-en="Contact Us" data-hi="संपर्क करें">Contact Us</span>
                 <i class="fas fa-chevron-right arrow"></i>
             </div>
             <div class="profile-menu-item">
                 <i class="fas fa-cog"></i>
-                <span>Settings</span>
+                <span data-en="Settings" data-hi="सेटिंग्स">Settings</span>
                 <i class="fas fa-chevron-right arrow"></i>
             </div>
             <div class="profile-menu-item" onclick="showLogin()">
                 <i class="fas fa-sign-in-alt"></i>
-                <span id="loginMenuText">Login / Signup</span>
+                <span id="loginMenuText" data-en="Login / Signup" data-hi="लॉगिन / साइनअप">Login / Signup</span>
                 <i class="fas fa-chevron-right arrow"></i>
             </div>
         </div>
     </div>
     
-    <!-- ===== ORDERS SECTION ===== -->
+    <!-- Orders Section -->
     <div class="orders-section" id="ordersSection">
         <div class="section-title">
-            <h2>📦 My Orders</h2>
+            <h2 data-en="My Orders" data-hi="मेरे ऑर्डर">My Orders</h2>
             <a href="#" onclick="showPage('profile')">Back</a>
         </div>
         <div id="ordersList">
@@ -904,15 +1186,15 @@ html_code = '''<!DOCTYPE html>
         </div>
     </div>
     
-    <!-- ===== CONTACT SECTION ===== -->
+    <!-- Contact Section -->
     <div class="contact-section" id="contactSection">
         <div class="section-title">
-            <h2>📞 Contact Us</h2>
+            <h2 data-en="Contact Us" data-hi="संपर्क करें">Contact Us</h2>
             <a href="#" onclick="showPage('profile')">Back</a>
         </div>
         
         <div class="contact-card">
-            <h3>Get in Touch</h3>
+            <h3 data-en="Get in Touch" data-hi="संपर्क में रहें">Get in Touch</h3>
             <div class="contact-item">
                 <i class="fas fa-envelope"></i>
                 <span>support@kartwheels.com</span>
@@ -928,7 +1210,7 @@ html_code = '''<!DOCTYPE html>
         </div>
         
         <div class="contact-card">
-            <h3>Follow Us</h3>
+            <h3 data-en="Follow Us" data-hi="फॉलो करें">Follow Us</h3>
             <div class="social-links">
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -938,11 +1220,11 @@ html_code = '''<!DOCTYPE html>
         </div>
     </div>
     
-    <!-- ===== CART SIDEBAR ===== -->
+    <!-- Cart Sidebar -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h2>🛒 My Cart</h2>
+            <h2>My Cart</h2>
             <i class="fas fa-times close-cart" onclick="toggleCart()"></i>
         </div>
         <div class="cart-items" id="cartItems">
@@ -952,19 +1234,23 @@ html_code = '''<!DOCTYPE html>
             </div>
         </div>
         <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="coupon-input">
+                <input type="text" id="couponCode" placeholder="Enter coupon code">
+                <button onclick="applyCoupon()">Apply</button>
+            </div>
             <div class="cart-total">
                 <span>Total:</span>
-                <span id="cartTotal">₹0</span>
+                <span id="cartTotal">Rs.0</span>
             </div>
             <button class="checkout-btn" onclick="checkout()">Checkout</button>
         </div>
     </div>
     
-    <!-- ===== LOGIN MODAL ===== -->
+    <!-- Login Modal -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal">
             <i class="fas fa-times modal-close" onclick="closeLogin()"></i>
-            <h2>🔐 Login</h2>
+            <h2>Login</h2>
             <div class="form-group">
                 <label>Email</label>
                 <input type="email" id="loginEmail" placeholder="Enter your email">
@@ -980,11 +1266,11 @@ html_code = '''<!DOCTYPE html>
         </div>
     </div>
     
-    <!-- ===== SIGNUP MODAL ===== -->
+    <!-- Signup Modal -->
     <div class="modal-overlay" id="signupModal">
         <div class="modal">
             <i class="fas fa-times modal-close" onclick="closeSignup()"></i>
-            <h2>📝 Sign Up</h2>
+            <h2>Sign Up</h2>
             <div class="form-group">
                 <label>Full Name</label>
                 <input type="text" id="signupName" placeholder="Enter your name">
@@ -1004,51 +1290,132 @@ html_code = '''<!DOCTYPE html>
         </div>
     </div>
     
-    <!-- ===== TOAST ===== -->
+    <!-- Toast -->
     <div class="toast" id="toast"></div>
     
-    <!-- ===== BOTTOM NAV ===== -->
+    <!-- Bottom Nav -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="showPage('home')">
             <i class="fas fa-home"></i>
-            <span>Home</span>
+            <span data-en="Home" data-hi="होम">Home</span>
         </div>
         <div class="nav-item" onclick="showPage('search')">
             <i class="fas fa-search"></i>
-            <span>Search</span>
+            <span data-en="Search" data-hi="खोज">Search</span>
         </div>
         <div class="nav-item" onclick="showPage('cart')">
             <i class="fas fa-shopping-cart"></i>
-            <span>Cart</span>
+            <span data-en="Cart" data-hi="कार्ट">Cart</span>
         </div>
         <div class="nav-item" onclick="showPage('profile')">
             <i class="fas fa-user"></i>
-            <span>Profile</span>
+            <span data-en="Profile" data-hi="प्रोफाइल">Profile</span>
         </div>
     </div>
     
     <script>
-        // ===== PRODUCTS DATA =====
+        // Products Data
         const products = [
-            { id: 1, name: "iPhone 15 Pro", brand: "Apple", price: 129900, original: 139900, discount: "7%", category: "electronics", emoji: "📱" },
-            { id: 2, name: "Nike Air Max", brand: "Nike", price: 8999, original: 11999, discount: "25%", category: "shoes", emoji: "👟" },
-            { id: 3, name: "Sony WH-1000XM5", brand: "Sony", price: 24990, original: 29990, discount: "17%", category: "accessories", emoji: "🎧" },
-            { id: 4, name: "Rolex Submariner", brand: "Rolex", price: 850000, original: 950000, discount: "11%", category: "watch", emoji: "⌚" },
-            { id: 5, name: "Adidas Ultraboost", brand: "Adidas", price: 12999, original: 15999, discount: "19%", category: "shoes", emoji: "👟" },
-            { id: 6, name: "MacBook Pro M3", brand: "Apple", price: 199900, original: 219900, discount: "9%", category: "electronics", emoji: "💻" },
-            { id: 7, name: "Levi's Denim Jacket", brand: "Levi's", price: 3999, original: 5999, discount: "33%", category: "fashion", emoji: "🧥" },
-            { id: 8, name: "Casio G-Shock", brand: "Casio", price: 8999, original: 10999, discount: "18%", category: "watch", emoji: "⌚" },
-            { id: 9, name: "AirPods Pro 2", brand: "Apple", price: 24900, original: 26900, discount: "7%", category: "accessories", emoji: "🎵" },
-            { id: 10, name: "Puma Running Shoes", brand: "Puma", price: 4999, original: 6999, discount: "29%", category: "shoes", emoji: "👟" },
-            { id: 11, name: "Samsung S24 Ultra", brand: "Samsung", price: 129999, original: 144999, discount: "10%", category: "electronics", emoji: "📱" },
-            { id: 12, name: "Zara Formal Shirt", brand: "Zara", price: 2999, original: 3999, discount: "25%", category: "fashion", emoji: "👔" }
+            { id: 1, name: "iPhone 15 Pro", brand: "Apple", price: 129900, original: 139900, discount: "7%", category: "electronics", emoji: "Phone", rating: 4.8, reviews: 234 },
+            { id: 2, name: "Nike Air Max", brand: "Nike", price: 8999, original: 11999, discount: "25%", category: "shoes", emoji: "Shoe", rating: 4.5, reviews: 189 },
+            { id: 3, name: "Sony Headphones", brand: "Sony", price: 24990, original: 29990, discount: "17%", category: "accessories", emoji: "Head", rating: 4.7, reviews: 156 },
+            { id: 4, name: "Rolex Submariner", brand: "Rolex", price: 850000, original: 950000, discount: "11%", category: "watch", emoji: "Watch", rating: 4.9, reviews: 89 },
+            { id: 5, name: "Adidas Ultraboost", brand: "Adidas", price: 12999, original: 15999, discount: "19%", category: "shoes", emoji: "Shoe", rating: 4.6, reviews: 312 },
+            { id: 6, name: "MacBook Pro M3", brand: "Apple", price: 199900, original: 219900, discount: "9%", category: "electronics", emoji: "Laptop", rating: 4.9, reviews: 178 },
+            { id: 7, name: "Levi's Jacket", brand: "Levi's", price: 3999, original: 5999, discount: "33%", category: "fashion", emoji: "Jacket", rating: 4.3, reviews: 145 },
+            { id: 8, name: "Casio G-Shock", brand: "Casio", price: 8999, original: 10999, discount: "18%", category: "watch", emoji: "Watch", rating: 4.7, reviews: 267 },
+            { id: 9, name: "AirPods Pro 2", brand: "Apple", price: 24900, original: 26900, discount: "7%", category: "accessories", emoji: "Pods", rating: 4.8, reviews: 423 },
+            { id: 10, name: "Puma Running", brand: "Puma", price: 4999, original: 6999, discount: "29%", category: "shoes", emoji: "Shoe", rating: 4.4, reviews: 198 },
+            { id: 11, name: "Samsung S24 Ultra", brand: "Samsung", price: 129999, original: 144999, discount: "10%", category: "electronics", emoji: "Phone", rating: 4.6, reviews: 345 },
+            { id: 12, name: "Zara Formal Shirt", brand: "Zara", price: 2999, original: 3999, discount: "25%", category: "fashion", emoji: "Shirt", rating: 4.2, reviews: 112 }
         ];
         
         let cart = [];
         let currentUser = null;
         let orders = [];
+        let currentLang = 'en';
+        let discountApplied = 0;
         
-        // ===== LOAD PRODUCTS =====
+        // Language Toggle
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'hi' : 'en';
+            document.getElementById('langToggle').textContent = currentLang.toUpperCase();
+            
+            // Update all elements with data attributes
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + currentLang);
+            });
+            
+            // Update specific elements
+            if (currentLang === 'hi') {
+                document.getElementById('heroTitle').textContent = 'Kartwheels में आपका स्वागत है';
+                document.getElementById('heroSub').textContent = 'AI-संचालित शॉपिंग अनुभव';
+                document.getElementById('shopBtn').textContent = 'अभी खरीदें';
+                document.getElementById('couponTitle').textContent = '🎁 कूपन';
+                document.getElementById('trendingTitle').textContent = 'ट्रेंडिंग प्रोडक्ट्स';
+                document.getElementById('searchInput').placeholder = 'प्रोडक्ट खोजें...';
+            } else {
+                document.getElementById('heroTitle').textContent = 'Welcome to Kartwheels';
+                document.getElementById('heroSub').textContent = 'AI-Powered Shopping Experience';
+                document.getElementById('shopBtn').textContent = 'Shop Now';
+                document.getElementById('couponTitle').textContent = '🎁 Coupons';
+                document.getElementById('trendingTitle').textContent = 'Trending Products';
+                document.getElementById('searchInput').placeholder = 'Search products...';
+            }
+            
+            showToast(currentLang === 'hi' ? 'भाषा बदल गई!' : 'Language changed!');
+        }
+        
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
+            showToast(isDark ? 'Dark mode on!' : 'Light mode on!');
+        }
+        
+        // Flash Sale Timer
+        function updateTimer() {
+            const now = new Date();
+            const end = new Date();
+            end.setHours(23, 59, 59);
+            
+            const diff = end - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        setInterval(updateTimer, 1000);
+        updateTimer();
+        
+        // Copy Coupon
+        function copyCoupon(code) {
+            navigator.clipboard.writeText(code);
+            showToast('Coupon ' + code + ' copied!');
+        }
+        
+        // Apply Coupon
+        function applyCoupon() {
+            const code = document.getElementById('couponCode').value.toUpperCase();
+            if (code === 'SAVE20') {
+                discountApplied = 0.20;
+                showToast('20% discount applied!');
+            } else if (code === 'KART500') {
+                discountApplied = 500;
+                showToast('Rs.500 discount applied!');
+            } else {
+                showToast('Invalid coupon code!');
+                return;
+            }
+            updateCart();
+        }
+        
+        // Load Products
         function loadProducts(filter = 'all') {
             const grid = document.getElementById('productsGrid');
             const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
@@ -1059,9 +1426,13 @@ html_code = '''<!DOCTYPE html>
                     <div class="product-info">
                         <div class="product-name">${p.name}</div>
                         <div class="product-brand">${p.brand}</div>
+                        <div class="product-rating">
+                            <span class="stars">${'⭐'.repeat(Math.floor(p.rating))}</span>
+                            <span class="rating-text">${p.rating} (${p.reviews})</span>
+                        </div>
                         <div class="product-price">
-                            <span class="price">₹${p.price.toLocaleString()}</span>
-                            <span class="original-price">₹${p.original.toLocaleString()}</span>
+                            <span class="price">Rs.${p.price.toLocaleString()}</span>
+                            <span class="original-price">Rs.${p.original.toLocaleString()}</span>
                             <span class="discount">${p.discount} OFF</span>
                         </div>
                         <button class="add-to-cart" onclick="addToCart(${p.id})">
@@ -1072,7 +1443,7 @@ html_code = '''<!DOCTYPE html>
             `).join('');
         }
         
-        // ===== ADD TO CART =====
+        // Add to Cart
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             const existing = cart.find(item => item.id === id);
@@ -1084,10 +1455,10 @@ html_code = '''<!DOCTYPE html>
             }
             
             updateCart();
-            showToast(`${product.name} added to cart!`);
+            showToast(product.name + ' added to cart!');
         }
         
-        // ===== UPDATE CART =====
+        // Update Cart
         function updateCart() {
             const badge = document.getElementById('cartBadge');
             const items = document.getElementById('cartItems');
@@ -1095,7 +1466,14 @@ html_code = '''<!DOCTYPE html>
             const total = document.getElementById('cartTotal');
             
             const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            // Apply discount
+            if (discountApplied > 0 && discountApplied < 1) {
+                totalPrice = totalPrice * (1 - discountApplied);
+            } else if (discountApplied > 1) {
+                totalPrice = Math.max(0, totalPrice - discountApplied);
+            }
             
             badge.textContent = totalQty;
             
@@ -1113,7 +1491,7 @@ html_code = '''<!DOCTYPE html>
                         <div class="cart-item-img">${item.emoji}</div>
                         <div class="cart-item-info">
                             <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-price">₹${item.price.toLocaleString()}</div>
+                            <div class="cart-item-price">Rs.${item.price.toLocaleString()}</div>
                             <div class="cart-item-qty">
                                 <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
                                 <span>${item.qty}</span>
@@ -1123,11 +1501,11 @@ html_code = '''<!DOCTYPE html>
                     </div>
                 `).join('');
                 footer.style.display = 'block';
-                total.textContent = '₹' + totalPrice.toLocaleString();
+                total.textContent = 'Rs.' + Math.round(totalPrice).toLocaleString();
             }
         }
         
-        // ===== UPDATE QUANTITY =====
+        // Update Quantity
         function updateQty(id, change) {
             const item = cart.find(i => i.id === id);
             if (item) {
@@ -1139,40 +1517,46 @@ html_code = '''<!DOCTYPE html>
             }
         }
         
-        // ===== TOGGLE CART =====
+        // Toggle Cart
         function toggleCart() {
             document.getElementById('cartOverlay').classList.toggle('active');
             document.getElementById('cartSidebar').classList.toggle('active');
         }
         
-        // ===== CHECKOUT =====
+        // Checkout
         function checkout() {
             if (cart.length === 0) return;
-            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             
-            // Save order
+            if (discountApplied > 0 && discountApplied < 1) {
+                total = total * (1 - discountApplied);
+            } else if (discountApplied > 1) {
+                total = Math.max(0, total - discountApplied);
+            }
+            
             const order = {
                 id: 'ORD' + Date.now(),
                 items: [...cart],
-                total: total,
+                total: Math.round(total),
                 date: new Date().toLocaleDateString(),
                 status: 'Processing'
             };
             orders.push(order);
             
-            showToast(`Order placed! Total: ₹${total.toLocaleString()}`);
+            showToast('Order placed! Total: Rs.' + Math.round(total).toLocaleString());
             cart = [];
+            discountApplied = 0;
             updateCart();
             toggleCart();
         }
         
-        // ===== FILTER CATEGORY =====
+        // Filter Category
         function filterCategory(cat) {
             loadProducts(cat);
             scrollToProducts();
         }
         
-        // ===== SEARCH =====
+        // Search
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
             const filtered = products.filter(p => 
@@ -1187,9 +1571,13 @@ html_code = '''<!DOCTYPE html>
                     <div class="product-info">
                         <div class="product-name">${p.name}</div>
                         <div class="product-brand">${p.brand}</div>
+                        <div class="product-rating">
+                            <span class="stars">${'⭐'.repeat(Math.floor(p.rating))}</span>
+                            <span class="rating-text">${p.rating} (${p.reviews})</span>
+                        </div>
                         <div class="product-price">
-                            <span class="price">₹${p.price.toLocaleString()}</span>
-                            <span class="original-price">₹${p.original.toLocaleString()}</span>
+                            <span class="price">Rs.${p.price.toLocaleString()}</span>
+                            <span class="original-price">Rs.${p.original.toLocaleString()}</span>
                             <span class="discount">${p.discount} OFF</span>
                         </div>
                         <button class="add-to-cart" onclick="addToCart(${p.id})">
@@ -1200,7 +1588,7 @@ html_code = '''<!DOCTYPE html>
             `).join('');
         });
         
-        // ===== SHOW TOAST =====
+        // Show Toast
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -1208,7 +1596,7 @@ html_code = '''<!DOCTYPE html>
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
         
-        // ===== LOGIN / SIGNUP =====
+        // Login / Signup
         function showLogin() {
             document.getElementById('loginModal').classList.add('active');
         }
@@ -1255,15 +1643,13 @@ html_code = '''<!DOCTYPE html>
             }
         }
         
-        // ===== PAGE NAVIGATION =====
+        // Page Navigation
         function showPage(page) {
-            // Hide all sections
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('profileSection').style.display = 'none';
             document.getElementById('ordersSection').style.display = 'none';
             document.getElementById('contactSection').style.display = 'none';
             
-            // Update nav active state
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             
             if (page === 'home') {
@@ -1281,7 +1667,7 @@ html_code = '''<!DOCTYPE html>
             }
         }
         
-        // ===== SHOW ORDERS =====
+        // Show Orders
         function showOrders() {
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('profileSection').style.display = 'none';
@@ -1304,13 +1690,13 @@ html_code = '''<!DOCTYPE html>
                             <span class="order-status">${o.status}</span>
                         </div>
                         <div class="order-items">${o.items.length} items</div>
-                        <div class="order-total">₹${o.total.toLocaleString()}</div>
+                        <div class="order-total">Rs.${o.total.toLocaleString()}</div>
                     </div>
                 `).join('');
             }
         }
         
-        // ===== SHOW CONTACT =====
+        // Show Contact
         function showContact() {
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('profileSection').style.display = 'none';
@@ -1318,12 +1704,33 @@ html_code = '''<!DOCTYPE html>
             document.getElementById('contactSection').style.display = 'block';
         }
         
+        // PWA Install
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            deferredPrompt = e;
+            document.getElementById('installBtn').classList.add('show');
+        });
+        
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('App installed!');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+        
         function scrollToProducts() {
             document.querySelector('.section-title').scrollIntoView({ behavior: 'smooth' });
         }
         
-        // ===== INIT =====
+        // Init
         loadProducts();
     </script>
 </body>
 </html>'''
+
+
